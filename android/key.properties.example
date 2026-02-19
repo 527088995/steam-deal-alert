@@ -1,0 +1,6 @@
+# 复制此文件为 key.properties 并填写真实内容。key.properties 不要提交到 Git。
+# 以下密码需与运行 create_keystore.bat 时设置的保持一致。
+storePassword=您的密钥库密码
+keyPassword=您的密钥密码
+keyAlias=upload
+storeFile=../upload-keystore.jks

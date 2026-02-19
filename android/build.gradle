@@ -1,0 +1,55 @@
+// 尽早为所有 Android 子项目统一 Java 编译选项，抑制“源值/目标值 8 已过时”等警告
+gradle.projectsLoaded {
+    rootProject.subprojects { sub ->
+        sub.afterEvaluate {
+            if (sub.plugins.hasPlugin('com.android.application') || sub.plugins.hasPlugin('com.android.library')) {
+                sub.tasks.withType(JavaCompile).configureEach {
+                    options.compilerArgs << '-Xlint:-options' << '-Xlint:-deprecation'
+                    options.encoding = 'UTF-8'
+                }
+            }
+        }
+    }
+}
+
+buildscript {
+    ext.kotlin_version = '2.2.0'
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        google()
+        mavenCentral()
+    }
+}
+
+allprojects {
+    buildscript {
+        repositories {
+            maven { url 'https://maven.aliyun.com/repository/google' }
+            maven { url 'https://maven.aliyun.com/repository/central' }
+            maven { url 'https://maven.aliyun.com/repository/public' }
+            google()
+            mavenCentral()
+        }
+    }
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.layout.buildDirectory
+}

@@ -1,0 +1,23 @@
+{
+  "appTitle": "Steam Deals",
+  "subscribe": "Subscribe Now",
+  "restore": "Restore Purchase",
+  "proFeature": "Unlock All Features",
+  "subscription_title": "Go Pro",
+  "free_label": "Free",
+  "pro_label": "Pro",
+  "feature_queries": "Deal lookups per day",
+  "feature_ads": "Ads",
+  "feature_price_alert": "Price drop alerts",
+  "free_queries_value": "3 per day",
+  "free_ads_value": "Yes",
+  "free_alert_value": "No",
+  "pro_queries_value": "Unlimited",
+  "pro_ads_value": "No ads",
+  "pro_alert_value": "Yes",
+  "badge_off": "30% OFF",
+  "limited_offer": "Limited time offer",
+  "trust_copy": "Cancel anytime. Secure payment via Google Play.",
+  "profile": "Profile",
+  "share_message": "Check out Steam deals!"
+}
