@@ -1,220 +1,602 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Steam Deal Alert – Steam Price Tracker, Wishlist &amp; Deals</title>
+  <meta name="description" content="Steam Deals Today: track Steam game price drops, wishlist discounts, and daily deals. One of the best Steam deal trackers and Steam wishlist trackers for Android.">
+  <meta name="keywords" content="steam deals today, best steam deal trackers, steam price tracker, steam wishlist tracker, steam discount alerts">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg: #0a0e17;
+      --bg-card: #0d1117;
+      --bg-card-hover: #161b22;
+      --text: #a8b2c1;
+      --text-bright: #e6edf3;
+      --accent: #e85d04;
+      --accent-hover: #f97316;
+      --glow: rgba(59, 130, 246, 0.15);
+      --radius: 14px;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+      --max-width: 1100px;
+      --section-padding: clamp(3rem, 6vw, 5rem);
+    }
 
-<title>Steam Deal Alert – Steam Price Tracker & Discount Alerts</title>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      line-height: 1.6;
+      font-size: clamp(0.95rem, 1.5vw, 1rem);
+    }
 
-<meta name="description" content="Track Steam game price drops, monitor wishlist discounts, and get notified when games go on sale.">
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
 
-<meta name="keywords" content="
-steam deals tracker,
-steam price tracker,
-steam sale alerts,
-steam discount tracker,
-steam wishlist alerts
-">
+    /* Hero */
+    header.hero {
+      padding: var(--section-padding) 0;
+      min-height: 60vh;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2rem;
+    }
+    .hero .container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .hero-content {
+      flex: 1 1 320px;
+      max-width: 560px;
+    }
+    .hero h1 {
+      font-size: clamp(2.25rem, 4vw, 3rem);
+      color: var(--text-bright);
+      margin: 0 0 0.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .hero .subtitle {
+      font-size: clamp(1rem, 1.8vw, 1.15rem);
+      color: var(--text);
+      margin: 0 0 1.75rem;
+      max-width: 480px;
+    }
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.9rem 1.6rem;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(232, 93, 4, 0.35);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.9rem 1.6rem;
+      background: transparent;
+      color: var(--text-bright);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      background: rgba(232, 93, 4, 0.08);
+    }
+    .hero-visual {
+      flex: 1 1 300px;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+    .hero-visual img {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: var(--shadow), 0 0 40px var(--glow);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    @media (max-width: 768px) {
+      .hero .container { flex-direction: column; text-align: center; }
+      .hero-content { max-width: 100%; }
+      .hero .subtitle { margin-left: auto; margin-right: auto; }
+      .hero-cta { justify-content: center; }
+    }
 
-<style>
+    /* Section common */
+    section {
+      padding: var(--section-padding) 0;
+    }
+    section h2 {
+      font-size: clamp(1.5rem, 2.5vw, 1.85rem);
+      color: var(--text-bright);
+      margin: 0 0 1.5rem;
+      font-weight: 600;
+    }
 
-body{
-font-family: Arial;
-background:#0b0f17;
-color:white;
-margin:0;
-}
+    /* SEO keyword cards */
+    .keyword-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+    .keyword-card {
+      background: var(--bg-card);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .keyword-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow), 0 0 24px var(--glow);
+      border-color: rgba(59, 130, 246, 0.2);
+    }
+    .keyword-card h3 {
+      font-size: 1.1rem;
+      color: var(--text-bright);
+      margin: 0 0 0.5rem;
+      font-weight: 600;
+    }
+    .keyword-card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
 
-.container{
-max-width:1100px;
-margin:auto;
-padding:40px 20px;
-}
+    /* Screenshots */
+    #screenshots .screenshot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .screenshot-item {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .screenshot-item:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow), 0 0 28px var(--glow);
+    }
+    .screenshot-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 9 / 19;
+      object-fit: cover;
+    }
+    .screenshot-item figcaption {
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
 
-h1{
-font-size:48px;
-}
+    /* Feature cards */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-2px);
+      background: var(--bg-card-hover);
+      box-shadow: var(--shadow), 0 0 20px var(--glow);
+    }
+    .feature-card h3 {
+      font-size: 1.05rem;
+      color: var(--text-bright);
+      margin: 0 0 0.4rem;
+      font-weight: 600;
+    }
+    .feature-card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
 
-.hero{
-text-align:center;
-padding:80px 20px;
-}
+    /* Comparison / Best trackers */
+    .tracker-list {
+      display: grid;
+      gap: 1rem;
+    }
+    .tracker-item {
+      background: var(--bg-card);
+      padding: 1.25rem 1.5rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .tracker-item strong {
+      color: var(--text-bright);
+    }
+    .tracker-item .tag {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(232, 93, 4, 0.2);
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .tracker-item p {
+      margin: 0.25rem 0 0;
+      grid-column: 1 / -1;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
 
-.button{
-background:#ff6a00;
-padding:15px 30px;
-border-radius:8px;
-text-decoration:none;
-color:white;
-font-weight:bold;
-}
+    /* Two-column content + image */
+    .content-with-image {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    .content-with-image.reverse .text { order: 2; }
+    .content-with-image.reverse .img-wrap { order: 1; }
+    .content-with-image .text { order: 1; }
+    .content-with-image .img-wrap { order: 2; }
+    .content-with-image .text h2 { margin-top: 0; }
+    .content-with-image .text p {
+      margin: 0 0 1rem;
+      color: var(--text);
+    }
+    .content-with-image .img-wrap {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow), 0 0 32px var(--glow);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .content-with-image .img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 9 / 19;
+      object-fit: cover;
+    }
+    @media (max-width: 768px) {
+      .content-with-image,
+      .content-with-image.reverse {
+        grid-template-columns: 1fr;
+        direction: ltr;
+      }
+      .content-with-image .img-wrap { max-width: 280px; margin: 0 auto; }
+    }
 
-.screenshots{
-display:flex;
-gap:20px;
-overflow-x:auto;
-margin-top:40px;
-}
+    /* FAQ */
+    .faq-list {
+      max-width: 640px;
+    }
+    .faq-item {
+      margin-bottom: 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+    .faq-item summary {
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      color: var(--text-bright);
+      cursor: pointer;
+      list-style: none;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: "+";
+      float: right;
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+    .faq-item[open] summary::after { content: "−"; }
+    .faq-item p {
+      margin: 0;
+      padding: 0 1.25rem 1rem;
+      padding-top: 0;
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
 
-.screenshots img{
-width:260px;
-border-radius:20px;
-}
+    /* Final CTA */
+    .cta-block {
+      text-align: center;
+      padding: var(--section-padding) 1.25rem;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-card) 100%);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .cta-block h2 {
+      margin-bottom: 0.75rem;
+    }
+    .cta-block .cta-p {
+      max-width: 520px;
+      margin: 0 auto 1.5rem;
+      color: var(--text);
+    }
+    .cta-block .btn-primary {
+      font-size: 1.05rem;
+      padding: 1rem 2rem;
+    }
 
-.features{
-margin-top:80px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:30px;
-}
-
-.card{
-background:#151b27;
-padding:20px;
-border-radius:10px;
-}
-
-.faq{
-margin-top:80px;
-}
-
-.faq-item{
-margin-bottom:20px;
-}
-
-footer{
-text-align:center;
-padding:40px;
-color:#999;
-}
-
-</style>
-
+    /* Footer */
+    footer.page-footer {
+      padding: 2rem 1.25rem;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+    footer.page-footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    footer.page-footer a:hover { text-decoration: underline; }
+    .footer-links {
+      margin-bottom: 0.75rem;
+    }
+    .footer-links a + a {
+      margin-left: 1rem;
+    }
+    .footer-copy {
+      margin: 0;
+      opacity: 0.8;
+    }
+  </style>
 </head>
-
 <body>
+  <header class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Steam Deal Alert</h1>
+        <p class="subtitle">Track Steam game price drops, wishlist discounts, daily deals, and price history—all in one place. Never miss a sale again.</p>
+        <div class="hero-cta">
+          <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.steamdeal.alert">Download on Google Play</a>
+          <a class="btn-secondary" href="#screenshots">View Screenshots</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="screenshots/home-deals-today.jpg" alt="Steam Deal Alert app home screen showing daily deals">
+      </div>
+    </div>
+  </header>
 
-<div class="hero container">
+  <main>
+    <section class="container" aria-labelledby="keyword-heading">
+      <h2 id="keyword-heading">Why track Steam deals?</h2>
+      <div class="keyword-cards">
+        <article class="keyword-card">
+          <h3>Steam Deals Today</h3>
+          <p>Daily and weekly sales change often. A quick glance at today’s best Steam deals helps you spot discounts without digging through the store.</p>
+        </article>
+        <article class="keyword-card">
+          <h3>Best Steam Deal Trackers</h3>
+          <p>Good trackers save time and surface real discounts. Compare current price to history and get alerts so you buy at the right moment.</p>
+        </article>
+        <article class="keyword-card">
+          <h3>Steam Price Tracker</h3>
+          <p>Seeing how low a game has gone in the past helps you decide if “50% off” is a good deal or worth waiting for a deeper cut.</p>
+        </article>
+        <article class="keyword-card">
+          <h3>Steam Wishlist Tracker</h3>
+          <p>Your wishlist can get long. A tracker that watches those games and notifies you when they go on sale keeps you from missing drops.</p>
+        </article>
+      </div>
+    </section>
 
-<h1>Steam Deal Alert</h1>
+    <section id="screenshots" class="container" aria-labelledby="screenshots-heading">
+      <h2 id="screenshots-heading">App Screenshots</h2>
+      <div class="screenshot-grid">
+        <figure class="screenshot-item">
+          <img src="screenshots/home-deals-today.jpg" alt="Daily deals overview on Steam Deal Alert">
+          <figcaption>Daily deals overview</figcaption>
+        </figure>
+        <figure class="screenshot-item">
+          <img src="screenshots/explore.jpg" alt="Explore trending discounts">
+          <figcaption>Explore trending discounts</figcaption>
+        </figure>
+        <figure class="screenshot-item">
+          <img src="screenshots/wishlist.jpg" alt="Wishlist tracking">
+          <figcaption>Wishlist tracking</figcaption>
+        </figure>
+        <figure class="screenshot-item">
+          <img src="screenshots/game-detail.jpg" alt="Game detail page">
+          <figcaption>Game detail page</figcaption>
+        </figure>
+        <figure class="screenshot-item">
+          <img src="screenshots/price-history.jpg" alt="Price history view">
+          <figcaption>Price history view</figcaption>
+        </figure>
+        <figure class="screenshot-item">
+          <img src="screenshots/profile.jpg" alt="Profile and notification settings">
+          <figcaption>Profile and notification settings</figcaption>
+        </figure>
+      </div>
+    </section>
 
-<p>
-Track Steam game price drops and get notified when games go on sale.
-</p>
+    <section class="container" aria-labelledby="features-heading">
+      <h2 id="features-heading">Features</h2>
+      <div class="features-grid">
+        <article class="feature-card">
+          <h3>Daily Steam Deals</h3>
+          <p>Browse today’s featured and daily deals in one place so you don’t have to hunt through the store.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Wishlist Price Drop Alerts</h3>
+          <p>Add games to your list and get notified when they go on sale or hit a new low.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Steam Price History</h3>
+          <p>View historical prices and discount depth before buying, so you know if it’s a good time to buy.</p>
+        </article>
+        <article class="feature-card">
+          <h3>AI Picks</h3>
+          <p>Discover recommended discounted games based on your interests and current sales.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Trending Discounts</h3>
+          <p>See what’s popular and heavily discounted right now across the Steam catalog.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Quick Access to Steam</h3>
+          <p>Jump straight to the Steam store page for any game to purchase or wishlist.</p>
+        </article>
+      </div>
+    </section>
 
-<br>
+    <section class="container" aria-labelledby="trackers-heading">
+      <h2 id="trackers-heading">Best Steam Deal Trackers</h2>
+      <p style="margin: 0 0 1.25rem; color: var(--text);">Different tools suit different needs. Here’s a quick overview of common options and where Steam Deal Alert fits in.</p>
+      <div class="tracker-list">
+        <div class="tracker-item">
+          <strong>Steam Wishlist</strong>
+          <p>Steam’s built-in wishlist emails you when a game goes on sale. Reliable, but no price history or deal discovery.</p>
+        </div>
+        <div class="tracker-item">
+          <strong>GG.deals</strong>
+          <p>Strong for comparing prices across stores and historical lows. Best used on desktop.</p>
+        </div>
+        <div class="tracker-item">
+          <strong>IsThereAnyDeal</strong>
+          <p>Great for tracking multiple stores and setting custom alerts. Desktop-focused with optional email alerts.</p>
+        </div>
+        <div class="tracker-item">
+          <strong>Steam Deal Alert</strong>
+          <span class="tag">Android app</span>
+          <p>Focused on Steam: daily deals, wishlist tracking, and price history in a mobile app so you can check and get alerts on the go.</p>
+        </div>
+      </div>
+    </section>
 
-<a class="button"
-href="https://play.google.com/store/apps/details?id=com.steamdeal.alert">
-Download on Google Play
-</a>
+    <section class="container" aria-labelledby="price-tracker-heading">
+      <div class="content-with-image">
+        <div class="text">
+          <h2 id="price-tracker-heading">Steam Price Tracker</h2>
+          <p>Checking price history before you buy can save money. Many games hit deeper discounts during seasonal sales, and “50% off” might still be above the usual low.</p>
+          <p>Steam Deal Alert shows current price, historical discount levels, and sale patterns so you can decide whether to buy now or wait. The price history view gives you a clear picture of how low a game has gone and how often it goes on sale.</p>
+        </div>
+        <div class="img-wrap">
+          <img src="screenshots/price-history.jpg" alt="Steam price history chart in Steam Deal Alert">
+        </div>
+      </div>
+    </section>
 
-</div>
+    <section class="container" aria-labelledby="wishlist-heading">
+      <div class="content-with-image reverse">
+        <div class="text">
+          <h2 id="wishlist-heading">Steam Wishlist Tracker</h2>
+          <p>Keeping track of wishlist games across sales is tedious when done manually. A dedicated Steam wishlist tracker monitors your list and tells you when games get a discount.</p>
+          <p>Steam Deal Alert lets you follow your wishlist and get alerts when prices drop, so you don’t have to open Steam every time to check. Handy when you’re away from your PC or just want one place to see what’s on sale.</p>
+        </div>
+        <div class="img-wrap">
+          <img src="screenshots/wishlist.jpg" alt="Wishlist view in Steam Deal Alert app">
+        </div>
+      </div>
+    </section>
 
-<div class="container">
+    <section class="container" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">FAQ</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <details>
+            <summary>What is Steam Deal Alert?</summary>
+            <p>Steam Deal Alert is an Android app that tracks Steam game prices, daily deals, and wishlist items. You can see price history and get notified when games you care about go on sale.</p>
+          </details>
+        </div>
+        <div class="faq-item">
+          <details>
+            <summary>How does Steam Deal Alert work?</summary>
+            <p>The app uses public Steam and store data to show current prices, historical discounts, and sale info. You can browse deals, add games to track, and enable notifications for price drops.</p>
+          </details>
+        </div>
+        <div class="faq-item">
+          <details>
+            <summary>Can I track my Steam wishlist?</summary>
+            <p>Yes. You can connect or mirror your wishlist and the app will track those games and alert you when they go on sale or hit a discount you care about.</p>
+          </details>
+        </div>
+        <div class="faq-item">
+          <details>
+            <summary>Is the app free?</summary>
+            <p>Core features are free. Optional Pro features may offer more tracking and alerts. Check the Google Play listing for current details.</p>
+          </details>
+        </div>
+        <div class="faq-item">
+          <details>
+            <summary>Does the app show Steam price history?</summary>
+            <p>Yes. You can view historical prices and past discount levels for games so you can judge whether the current sale is a good deal.</p>
+          </details>
+        </div>
+        <div class="faq-item">
+          <details>
+            <summary>Why use this instead of checking Steam manually?</summary>
+            <p>Checking dozens of wishlist games or hunting for daily deals on Steam takes time. The app aggregates deals and tracks your list in one place and sends alerts so you don’t have to check constantly.</p>
+          </details>
+        </div>
+      </div>
+    </section>
 
-<h2>App Screenshots</h2>
+    <section class="container">
+      <div class="cta-block">
+        <h2>Get Steam Deal Alert</h2>
+        <p class="cta-p">Track Steam deals, wishlist drops, and price history on your phone. Download the app and never miss a sale.</p>
+        <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.steamdeal.alert">Download on Google Play</a>
+      </div>
+    </section>
+  </main>
 
-<div class="screenshots">
-
-<img src="screenshot1.jpg">
-<img src="screenshot2.jpg">
-<img src="screenshot3.jpg">
-<img src="screenshot4.jpg">
-<img src="screenshot5.jpg">
-
-</div>
-
-</div>
-
-<div class="container">
-
-<h2>Features</h2>
-
-<div class="features">
-
-<div class="card">
-<h3>Steam Price Alerts</h3>
-<p>Get notified when Steam games drop in price.</p>
-</div>
-
-<div class="card">
-<h3>Wishlist Tracking</h3>
-<p>Track games in your wishlist and never miss a deal.</p>
-</div>
-
-<div class="card">
-<h3>Price History</h3>
-<p>See historical Steam prices before buying.</p>
-</div>
-
-<div class="card">
-<h3>AI Picks</h3>
-<p>Discover discounted games selected by AI.</p>
-</div>
-
-<div class="card">
-<h3>Trending Deals</h3>
-<p>Find the most popular Steam discounts today.</p>
-</div>
-
-</div>
-
-</div>
-
-<div class="container faq">
-
-<h2>FAQ</h2>
-
-<div class="faq-item">
-
-<h3>How does Steam Deal Alert work?</h3>
-
-<p>
-The app monitors Steam game prices and notifies you when discounts appear.
-</p>
-
-</div>
-
-<div class="faq-item">
-
-<h3>Is the app free?</h3>
-
-<p>
-Yes. The basic features are free, and Pro users get unlimited tracking and alerts.
-</p>
-
-</div>
-
-<div class="faq-item">
-
-<h3>Can I track my Steam wishlist?</h3>
-
-<p>
-Yes. You can monitor wishlist games and receive notifications when prices drop.
-</p>
-
-</div>
-
-</div>
-
-<div class="container">
-
-<h2>Download Steam Deal Alert</h2>
-
-<a class="button"
-href="https://play.google.com/store/apps/details?id=com.steamdeal.alert">
-Get it on Google Play
-</a>
-
-</div>
-
-<footer>
-
-Steam Deal Alert – Track Steam Discounts & Deals
-
-</footer>
-
+  <footer class="page-footer">
+    <div class="footer-links">
+      <span>Steam Deal Alert</span>
+      <a href="https://play.google.com/store/apps/details?id=com.steamdeal.alert">Google Play</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+    </div>
+    <p class="footer-copy">© 2025 Steam Deal Alert</p>
+  </footer>
 </body>
 </html>
